@@ -131,6 +131,8 @@ module SendGrid
     puts "SendGrid X-SMTPAPI: #{sendgrid_json_headers(mail)}" if Object.const_defined?("SENDGRID_DEBUG_OUTPUT") && SENDGRID_DEBUG_OUTPUT
     @mail['X-SMTPAPI'] = sendgrid_json_headers(mail)
   end
+  
+  alias_method :process, :create!
 
   private
 
