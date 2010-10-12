@@ -126,7 +126,7 @@ module SendGrid
         raise ArgumentError.new("Array for #{find} is not the same size as the recipient array") if replace.size != @sg_recipients.size
       end
     end
-    self['X-SMTPAPI'] = sendgrid_json_headers(self)
+    @_message['X-SMTPAPI'] = sendgrid_json_headers(@_message)
   end
   
   private
