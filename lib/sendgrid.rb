@@ -119,30 +119,16 @@ module SendGrid
   def sendgrid_spamcheck_maxscore(score)
     @spamcheck_score = score
   end
-
-  # Sets the custom X-SMTPAPI header after creating the email but before delivery
-  # def create!(method_name, *parameters)
-  #   super
-  #   if @sg_substitutions && !@sg_substitutions.empty?
-  #     @sg_substitutions.each do |find, replace|
-  #       raise ArgumentError.new("Array for #{find} is not the same size as the recipient array") if replace.size != @sg_recipients.size
-  #     end
-  #   end
-  #   puts "SendGrid X-SMTPAPI: #{sendgrid_json_headers(mail)}" if Object.const_defined?("SENDGRID_DEBUG_OUTPUT") && SENDGRID_DEBUG_OUTPUT
-  #   @mail['X-SMTPAPI'] = sendgrid_json_headers(mail)
-  # end
   
-  def initialize_defaults(*args)
+  def sendgrid!
     if @sg_substitutions && !@sg_substitutions.empty?
       @sg_substitutions.each do |find, replace|
         raise ArgumentError.new("Array for #{find} is not the same size as the recipient array") if replace.size != @sg_recipients.size
       end
     end
-    puts "SendGrid X-SMTPAPI: #{sendgrid_json_headers(@_message)}" if Object.const_defined?("SENDGRID_DEBUG_OUTPUT") && SENDGRID_DEBUG_OUTPUT
-    @_message['X-SMTPAPI'] = sendgrid_json_headers(@_message)
-    super(*args)
+    self['X-SMTPAPI'] = sendgrid_json_headers(self)
   end
-
+  
   private
 
   # Take all of the options and turn it into the json format that SendGrid expects
