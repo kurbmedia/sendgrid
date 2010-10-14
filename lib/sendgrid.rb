@@ -20,6 +20,8 @@ module SendGrid
                       :default_footer_text, :default_spamcheck_score
       end
       attr_accessor :sg_category, :sg_options, :sg_disabled_options, :sg_recipients, :sg_substitutions, :subscriptiontrack_text, :footer_text, :spamcheck_score
+      
+      default 'X-SMTPAPI' => Proc.new { sendgrid_json_headers(@_message) }
     end
     base.extend(ClassMethods)
   end
