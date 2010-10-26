@@ -120,13 +120,14 @@ module SendGrid
     @spamcheck_score = score
   end
   
-  def sendgrid!
+  def mail(options)
     if @sg_substitutions && !@sg_substitutions.empty?
       @sg_substitutions.each do |find, replace|
         raise ArgumentError.new("Array for #{find} is not the same size as the recipient array") if replace.size != @sg_recipients.size
       end
     end
-    @_message['X-SMTPAPI'] = sendgrid_json_headers(@_message)
+    options.reverse_merge!('X-SMTPAPI' => sendgrid_json_headers(@_message))
+    super
   end
   
   private
